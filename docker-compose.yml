@@ -24,7 +24,7 @@ services:
         links:
             - db
         extra_hosts:
-            - "docker.host:127.0.0.1"
+            - "docker.host:192.168.0.9"
     nginx:
         build: ./.docker/nginx
         env_file: 
@@ -49,3 +49,14 @@ services:
         volumes_from:
             - php
             - nginx
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        env_file: 
+            - ./.env
+        links:
+            - db
+        environment:
+            PMA_HOST: db
+            PMA_PORT: 3306
+        ports:
+            - "${PMA_HOST_PORT}:80"
